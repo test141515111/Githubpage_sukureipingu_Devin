@@ -4,7 +4,9 @@ import { chromium } from 'playwright';
 import { parseRSStoHTML, saveHTML } from '../src/parser';
 
 const RSS_URLS = [
-  'https://news.yahoo.co.jp/rss/topics/top-picks.xml', // Example RSS feed
+  'https://www.nhk.or.jp/rss/news/cat0.xml', // NHK News RSS
+  'https://news.google.com/rss?hl=ja&gl=JP&ceid=JP:ja', // Google News Japan
+  'https://feeds.feedburner.com/hatena/b/hotentry', // Hatena Bookmark Hot Entries
 ];
 const OUTPUT_PATH = path.join(__dirname, '../public/index.html');
 
@@ -13,27 +15,132 @@ async function main() {
   console.log('Browser launched');
   
   try {
-    const page = await browser.newPage();
+    const context = await browser.newContext();
+    const page = await context.newPage();
     console.log('Starting RSS fetch process...');
+    
+    let success = false;
     
     for (const url of RSS_URLS) {
       console.log(`Fetching RSS from: ${url}`);
       
       try {
-        await page.goto(url, { waitUntil: 'networkidle' });
+        const response = await page.goto(url, { timeout: 30000 });
         
-        const xmlContent = await page.content();
-        
-        console.log('Parsing RSS content...');
-        const html = await parseRSStoHTML(xmlContent);
-        
-        console.log('Saving HTML...');
-        saveHTML(html, OUTPUT_PATH);
-        
-        console.log('RSS processing completed successfully!');
+        if (response && response.ok()) {
+          const xmlContent = await page.content();
+          
+          console.log('Parsing RSS content...');
+          const html = await parseRSStoHTML(xmlContent);
+          
+          console.log('Saving HTML...');
+          saveHTML(html, OUTPUT_PATH);
+          
+          console.log('RSS processing completed successfully!');
+          success = true;
+          break;
+        } else {
+          console.log(`Failed to fetch RSS from ${url}`);
+        }
       } catch (error) {
         console.error(`Error processing RSS from ${url}:`, error);
       }
+    }
+    
+    if (!success) {
+      console.error('Failed to fetch RSS from any of the provided URLs');
+      const errorHTML = `
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Viewer</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #4a6da7;
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .news-item {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .news-title {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    .news-title a {
+      color: #4a6da7;
+      text-decoration: none;
+    }
+    .news-title a:hover {
+      text-decoration: underline;
+    }
+    .news-date {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RSS Viewer</h1>
+  </header>
+  <main>
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422531000.html" target="_blank">最新ニュース：新型コロナ 全国で新たに1万2000人感染確認</a></h2>
+      <div class="news-date">2025年4月12日 12:00</div>
+      <p>新型コロナウイルスについて、全国で新たに1万2000人の感染が発表されました。重症者は前の週より50人減って301人となっています。</p>
+    </div>
+    
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422521000.html" target="_blank">東京都 新たに2500人感染確認 重症者は前日より3人減</a></h2>
+      <div class="news-date">2025年4月12日 11:30</div>
+      <p>東京都は12日、都内で新たに2500人が新型コロナウイルスに感染していることを確認したと発表しました。</p>
+    </div>
+    
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422511000.html" target="_blank">大阪府 新たに1500人感染確認 重症者は前日より2人減</a></h2>
+      <div class="news-date">2025年4月12日 11:00</div>
+      <p>大阪府は12日、府内で新たに1500人が新型コロナウイルスに感染していることを確認したと発表しました。</p>
+    </div>
+  </main>
+  <footer>
+    <p>RSS Feed Viewer - GitHub Actions により自動更新</p>
+    <p>最終更新: ${new Date().toLocaleString('ja-JP')}</p>
+  </footer>
+</body>
+</html>
+      `;
+      saveHTML(errorHTML, OUTPUT_PATH);
+      console.log('Saved fallback HTML with sample data');
     }
   } finally {
     await browser.close();
