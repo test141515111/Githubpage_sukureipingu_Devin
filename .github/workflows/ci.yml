@@ -1,0 +1,39 @@
+name: RSS Fetch and Deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '*/5 * * * *'  # 5分おきに実行
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        
+      - name: Fetch RSS and generate HTML
+        run: npm run fetch
+        
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Commit and push changes
+        run: |
+          git add public/index.html
+          git commit -m "chore: update RSS content $(date +%Y-%m-%d-%H:%M)" || echo "No changes to commit"
+          git push
