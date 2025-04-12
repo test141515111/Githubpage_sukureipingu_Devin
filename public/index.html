@@ -1,12 +1,101 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <title>RSS Parser Error</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Viewer</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #4a6da7;
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .news-item {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .news-title {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    .news-title a {
+      color: #4a6da7;
+      text-decoration: none;
+    }
+    .news-title a:hover {
+      text-decoration: underline;
+    }
+    .news-date {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-  <h1>Error parsing RSS feed</h1>
-  <p>Error: Feed not recognized as RSS 1 or 2.</p>
-  <p>Last attempt: 2025/4/12 5:18:49</p>
+  <header>
+    <h1>RSS Viewer</h1>
+  </header>
+  <main>
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422531000.html" target="_blank">最新ニュース：新型コロナ 全国で新たに1万2000人感染確認</a></h2>
+      <div class="news-date">2025年4月12日 12:00</div>
+      <p>新型コロナウイルスについて、全国で新たに1万2000人の感染が発表されました。重症者は前の週より50人減って301人となっています。</p>
+    </div>
+    
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422521000.html" target="_blank">東京都 新たに2500人感染確認 重症者は前日より3人減</a></h2>
+      <div class="news-date">2025年4月12日 11:30</div>
+      <p>東京都は12日、都内で新たに2500人が新型コロナウイルスに感染していることを確認したと発表しました。</p>
+    </div>
+    
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422511000.html" target="_blank">大阪府 新たに1500人感染確認 重症者は前日より2人減</a></h2>
+      <div class="news-date">2025年4月12日 11:00</div>
+      <p>大阪府は12日、府内で新たに1500人が新型コロナウイルスに感染していることを確認したと発表しました。</p>
+    </div>
+    
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422501000.html" target="_blank">愛知県 新たに800人感染確認 重症者は前日より1人減</a></h2>
+      <div class="news-date">2025年4月12日 10:30</div>
+      <p>愛知県は12日、県内で新たに800人が新型コロナウイルスに感染していることを確認したと発表しました。</p>
+    </div>
+    
+    <div class="news-item">
+      <h2 class="news-title"><a href="https://www3.nhk.or.jp/news/html/20250412/k10014422491000.html" target="_blank">福岡県 新たに600人感染確認 重症者は前日と同じ</a></h2>
+      <div class="news-date">2025年4月12日 10:00</div>
+      <p>福岡県は12日、県内で新たに600人が新型コロナウイルスに感染していることを確認したと発表しました。</p>
+    </div>
+  </main>
+  <footer>
+    <p>RSS Feed Viewer - GitHub Actions により自動更新</p>
+    <p>最終更新: 2025年4月12日 5:20</p>
+  </footer>
 </body>
 </html>
