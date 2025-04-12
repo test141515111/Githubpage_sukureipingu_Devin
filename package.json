@@ -1,0 +1,27 @@
+{
+  "name": "rss-viewer",
+  "version": "1.0.0",
+  "description": "RSS viewer that parses XML to HTML and publishes to GitHub Pages",
+  "main": "index.js",
+  "scripts": {
+    "fetch": "ts-node scripts/fetch.ts",
+    "test": "playwright test"
+  },
+  "keywords": [
+    "rss",
+    "playwright",
+    "github-actions"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "rss-parser": "^3.13.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.2.5"
+  }
+}
