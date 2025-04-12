@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Viewer</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #4a6da7;
+      color: white;
+      padding: 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .loading {
+      text-align: center;
+      padding: 50px;
+      font-style: italic;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RSS Viewer</h1>
+  </header>
+  <main>
+    <div class="loading">
+      RSSフィードを読み込み中です。このページは自動的に更新されます。
+    </div>
+  </main>
+  <footer>
+    <p>RSS Feed Viewer - GitHub Actions により自動更新</p>
+    <p class="last-updated">最終更新: 初回実行前</p>
+  </footer>
+</body>
+</html>
