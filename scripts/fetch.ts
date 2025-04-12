@@ -5,6 +5,9 @@ import { parseRSStoHTML, saveHTML } from '../src/parser';
 
 const RSS_URLS = [
   'https://news.yahoo.co.jp/rss/topics/top-picks.xml', // Example RSS feed
+  'https://feeds.feedburner.com/japan-rss', // Alternative RSS feed
+  'https://www.reddit.com/r/japan/.rss', // Reddit Japan RSS
+  'https://www.nhk.or.jp/rss/news/cat0.xml' // NHK News RSS
 ];
 const OUTPUT_PATH = path.join(__dirname, '../public/index.html');
 
